@@ -78,6 +78,7 @@ class SaleItem {
   }
 
   /// from excel row
+  /// columns: id, invoice, table, date, name, quantity, discount, price, total
   factory SaleItem.fromRow(List row) {
     return SaleItem(
       id: row[0],
