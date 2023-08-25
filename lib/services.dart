@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:excel/excel.dart';
 import 'package:freelance_invoice/models/sale.dart';
@@ -140,6 +142,11 @@ extension on Sale {
 
 extension CoreIntExtension on int {
   bool get toBool => this == 0 ? false : true;
+
+  int random({int min = 0, int max = 99999}) {
+    Random rnd = Random();
+    return min + rnd.nextInt(max - min);
+  }
 }
 
 extension ListExt on List<Data?> {
@@ -156,7 +163,12 @@ extension ListExt on List<Data?> {
           this[3]?.value != null);
 }
 
-
 class AppService {
   static Logger logger = Logger();
+
+  static TimeOfDay randomTimeOfDay(TimeOfDay from, TimeOfDay to) {
+    final hour = 1.random(min: from.hour, max: to.hour);
+    final minute = 1.random(min: from.minute, max: to.minute);
+    return TimeOfDay(hour: hour, minute: minute);
+  }
 }

@@ -1,12 +1,30 @@
 import 'dart:async';
-
 import 'package:freelance_invoice/models/sale.dart';
-import 'package:freelance_invoice/models/sale_item.dart';
+
+import 'package:freelance_invoice/services.dart';
 import 'package:intl/intl.dart';
 
 class TemplateService {
-  static FutureOr<String> generateInvoiceHtml(Sale sale) async {
+  static FutureOr<String> generateInvoiceHtml(Sale sale,
+      {DateTime? defaultDate}) async {
     var tdItem = """""";
+    var date = sale.date!.contains("/")
+        ? sale.date!.replaceAll("-", "/").split("/").reversed.join("-")
+        : sale.date!;
+    if (sale.date == null ||
+        sale.date!.isEmpty ||
+        DateTime.tryParse(date) == null) {
+      AppService.logger.e("Error Date ${sale.toJson()}");
+    } else {
+      // AppService.logger.i("${date}");
+    }
+
+    var dateString = sale.date == null || sale.date!.isEmpty
+        ? ""
+        : DateFormat.yMd().add_Hms().format(DateTime.tryParse(date)!.add(
+            Duration(
+                hours: 0.random(min: 0, max: 5),
+                minutes: 0.random(min: 5, max: 60))));
     for (var saleItem in sale.items) {
       tdItem += """<tr>
                         <td align="left" valign="top">${saleItem.name}</td>
@@ -322,7 +340,7 @@ class TemplateService {
                     <p>Cashier: 1111 1111</p>
                 </div>
                 <div class="right col-6">
-                    <p>Date: ${sale.date}</p>
+                    <p>Date: ${dateString}</p>
                     <p>Payment: </p>
                     <p>Customer: General</p>
                 </div>

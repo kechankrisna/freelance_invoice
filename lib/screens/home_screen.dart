@@ -23,6 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
   io.File? _file;
   String? _excelInfo;
   List<Sale> _sales = [];
+  List<Sale> _previews = [];
+
+  late ScrollController previewScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,37 +33,54 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("home screen"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 300,
-              child: TextFormField(
-                initialValue: startRow.toString(),
-                textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                  label: Text("start row to parse"),
-                ),
-                onChanged: (v) {
-                  if (v == null || int.tryParse(v) == null) return;
-                  setState(() {
-                    startRow = int.tryParse(v)!;
-                  });
-                },
+      body: Row(
+        children: [
+          Flexible(
+            flex: 2,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    child: TextFormField(
+                      initialValue: startRow.toString(),
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        label: Text("start row to parse"),
+                      ),
+                      onChanged: (v) {
+                        if (v == null || int.tryParse(v) == null) return;
+                        setState(() {
+                          startRow = int.tryParse(v)!;
+                        });
+                      },
+                    ),
+                  ),
+                  TextButton(onPressed: pickFile, child: Text("pick a file")),
+                  if (_file != null) ...[
+                    TextButton(
+                        onPressed: parseExcel, child: Text("parse excel")),
+                    TextButton(
+                        onPressed: printPreview, child: Text("print preview")),
+                  ],
+                  if (_excelInfo != null) Text(_excelInfo!),
+                  TextButton(
+                      onPressed: testLoadDummyExcel,
+                      child: Text("load dummy excel"))
+                ],
               ),
             ),
-            TextButton(onPressed: pickFile, child: Text("pick a file")),
-            if (_file != null) ...[
-              TextButton(onPressed: parseExcel, child: Text("parse excel")),
-              TextButton(onPressed: printPreview, child: Text("print preview")),
-            ],
-            if (_excelInfo != null) Text(_excelInfo!),
-            TextButton(
-                onPressed: testLoadDummyExcel, child: Text("load dummy excel"))
-          ],
-        ),
+          ),
+          Flexible(
+              flex: 1,
+              child: ListView.builder(
+                  controller: previewScrollController,
+                  itemCount: _previews.length,
+                  itemBuilder: (_, i) =>
+                      Text("${i + 1} (${_previews[i].invoice})"))),
+        ],
       ),
     );
   }
@@ -125,6 +145,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   printPreview() async {
+    setState(() {
+      previewScrollController
+          .jumpTo(previewScrollController.position.minScrollExtent);
+      _previews = [];
+    });
     for (var sale in _sales) {
       var content = await TemplateService.generateInvoiceHtml(sale);
 
@@ -133,6 +158,11 @@ class _HomeScreenState extends State<HomeScreen> {
       var fileImg = io.File(
           p.join(io.Directory.current.path, "screenshots/${sale.invoice}.png"));
       await fileImg.writeAsBytes(img);
+      setState(() {
+        _previews.add(sale);
+      });
+      previewScrollController
+          .jumpTo(previewScrollController.position.maxScrollExtent);
       print(fileImg.path);
     }
     // print("content $content");
