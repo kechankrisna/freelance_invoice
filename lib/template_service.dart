@@ -10,9 +10,9 @@ class TemplateService {
     for (var saleItem in sale.items) {
       tdItem += """<tr>
                         <td align="left" valign="top">${saleItem.name}</td>
-                        <td align="center" valign="top">${saleItem.quantity!.toStringAsFixed(2)}</td>
+                        <td align="center" valign="top">${saleItem.quantity!.toInt()}</td>
                         <td align="center" valign="top">\$ ${saleItem.price!.toStringAsFixed(2)}</td>
-                        <td align="right" valign="top">% ${saleItem.discount!.toStringAsFixed(2)}</td>
+                        <td align="right" valign="top">% ${saleItem.discount!.toInt()}</td>
                         <td align="right" valign="top">\$ ${saleItem.total!.toStringAsFixed(2)}</td>
                     </tr>""";
     }
@@ -130,14 +130,6 @@ class TemplateService {
         color: #1976d2;
     }
 
-    span,
-    {
-    color: black;
-    font-size: 23px;
-    line-height: 27px;
-    font-weight: 500;
-    }
-
     .composite {
         padding-left: 5px;
     }
@@ -239,7 +231,7 @@ class TemplateService {
 
     span {
         color: black;
-        font-size: 23px;
+        font-size: 19px;
         line-height: 27px;
         font-weight: 500;
     }
@@ -343,10 +335,10 @@ class TemplateService {
                 <thead>
                     <tr>
                         <td align="left" style="width:40%;"> Name </td>
-                        <td align="center" style="width:15%;"> Qty </td>
-                        <td align="center" style="width:15%;"> Pri </td>
-                        <td align="right" style="width:15%;"> Dis </td>
-                        <td align="right" style="width:15%;"> Total </td>
+                        <td align="center" style="width:10%;"> Qty </td>
+                        <td align="center" style="width:20%;"> Pri </td>
+                        <td align="right" style="width:10%;"> Dis </td>
+                        <td align="right" style="width:20%;"> Total </td>
                     </tr>
                 </thead>
                 <!-- product part -->
@@ -371,7 +363,7 @@ class TemplateService {
         </div>
 
         <div class="container text-center">
-            Thank You
+            <span>Thank You</span>
         </div>
 
         <div style="height:20px;"></div>
