@@ -5,8 +5,7 @@ import 'package:freelance_invoice/services.dart';
 import 'package:intl/intl.dart';
 
 class TemplateService {
-  static FutureOr<String> generateInvoiceHtml(Sale sale,
-      {DateTime? defaultDate}) async {
+  static FutureOr<String> generateInvoiceHtml(Sale sale) async {
     var tdItem = """""";
     var date = sale.date!.contains("/")
         ? sale.date!.replaceAll("-", "/").split("/").reversed.join("-")
