@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:freelance_invoice/models/sale.dart';
 import 'package:freelance_invoice/models/sale_item.dart';
 
@@ -93,6 +95,12 @@ class RawSaleItemService {
 
     return copies;
   }
+
+  static FutureOr<List<List>> rowsFromFile() async {
+    var result = <List<List>>[];
+
+    return result;
+  }
 }
 
 extension on SaleItem {
@@ -131,4 +139,14 @@ extension on Sale {
 
 extension CoreIntExtension on int {
   bool get toBool => this == 0 ? false : true;
+}
+
+extension ListExt on List<dynamic> {
+  bool get isPharsable =>
+      isNotEmpty &&
+      length >= 5 &&
+      (this[0] != null &&
+          this[1] != null &&
+          this[2] != null &&
+          this[3] != null);
 }

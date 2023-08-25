@@ -81,11 +81,11 @@ class SaleItem {
   /// columns: id, invoice, table, date, name, quantity, discount, price, total
   factory SaleItem.fromRow(List row) {
     return SaleItem(
-      id: row[0],
-      invoice: row[1],
-      table: row[2],
-      date: row[3],
-      name: row[4],
+      id: "${row[0]}",
+      invoice: "${row[1]}",
+      table: "${row[2]}",
+      date: "${row[3]}",
+      name: "${row[4]}",
       quantity: DataParsingService.parseDecimal(row[5]) as double? ?? 0,
       discount: DataParsingService.parseDecimal(row[6]) as double? ?? 0,
       price: DataParsingService.parseDecimal(row[7]) as double? ?? 0,

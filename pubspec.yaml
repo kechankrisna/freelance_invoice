@@ -38,6 +38,8 @@ dependencies:
   excel: ^2.1.0
   go_router: ^10.1.0
   webcontent_converter: ^0.0.8+3
+  path: ^1.8.3
+  path_provider: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -62,8 +64,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/dummy.xlsx
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
