@@ -125,12 +125,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   printPreview() async {
-    final sale = _sales.first;
+    for (var sale in _sales) {
+      var content = await TemplateService.generateInvoiceHtml(sale);
 
-    var content = await TemplateService.generateInvoiceHtml(sale);
-
-    WebcontentConverter.printPreview(content: content);
-
+      // WebcontentConverter.printPreview(content: content);
+      var img = await WebcontentConverter.contentToImage(content: content);
+      var fileImg = io.File(
+          p.join(io.Directory.current.path, "screenshots/${sale.invoice}.png"));
+      await fileImg.writeAsBytes(img);
+      print(fileImg.path);
+    }
     // print("content $content");
   }
 

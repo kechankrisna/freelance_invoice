@@ -51,7 +51,7 @@ class TemplateService {
         font-family: 'Noto Serif Khmer', 'Noto Sans', sans-serif;
         font-weight: 600;
         font-size: 25px;
-        line-height: '25' px;
+        line-height: 25px;
         width: 576px;
     }
 
@@ -330,7 +330,7 @@ class TemplateService {
                     <p>Cashier: 1111 1111</p>
                 </div>
                 <div class="right col-6">
-                    <p>Date: ${DateFormat.yMd().format(DateTime.parse(sale.date!))}</p>
+                    <p>Date: ${sale.date}</p>
                     <p>Payment: </p>
                     <p>Customer: General</p>
                 </div>
@@ -364,7 +364,7 @@ class TemplateService {
 
             <div class="flex">
                 <p class="col-9" colspan="10" align="right"> Total: </p>
-                <p class="col-4" colspan="1" align="right">\$ ${sale.total} </p>
+                <p class="col-4" colspan="1" align="right">\$ ${sale.total!.toStringAsFixed(2)} </p>
             </div>
             
             <!-- end footer part -->
