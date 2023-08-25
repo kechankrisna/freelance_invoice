@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'package:logger/logger.dart';
+import 'package:excel/excel.dart';
 import 'package:freelance_invoice/models/sale.dart';
 import 'package:freelance_invoice/models/sale_item.dart';
 
@@ -141,12 +142,21 @@ extension CoreIntExtension on int {
   bool get toBool => this == 0 ? false : true;
 }
 
-extension ListExt on List<dynamic> {
+extension ListExt on List<Data?> {
   bool get isPharsable =>
       isNotEmpty &&
       length >= 5 &&
       (this[0] != null &&
+          this[0]?.value != null &&
           this[1] != null &&
+          this[1]?.value != null &&
           this[2] != null &&
-          this[3] != null);
+          this[2]?.value != null &&
+          this[3] != null &&
+          this[3]?.value != null);
+}
+
+
+class AppService {
+  static Logger logger = Logger();
 }
