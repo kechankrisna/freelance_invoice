@@ -22,7 +22,7 @@ class TemplateService {
         ? ""
         : DateFormat.yMd().add_Hms().format(DateTime.tryParse(date)!.add(
             Duration(
-                hours: 0.random(min: 0, max: 5),
+                hours: 0.random(min: 0, max: 4),
                 minutes: 0.random(min: 5, max: 60))));
     for (var saleItem in sale.items) {
       tdItem += """<tr>
