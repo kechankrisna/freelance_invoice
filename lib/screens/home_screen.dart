@@ -60,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   TextButton(onPressed: pickFile, child: Text("pick a file")),
                   if (_file != null) ...[
+                    Text("${_file!.path.toString()}"),
                     TextButton(
                         onPressed: parseExcel, child: Text("parse excel")),
                     TextButton(
@@ -105,6 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
       AppService.logger.d("no file was selected", time: DateTime.now());
       return;
     }
+    setState(() {
+      _sales = [];
+      _excelInfo = "";
+      _previews = [];
+    });
     final _bytes = await _file!.readAsBytes();
     var excel = Excel.decodeBytes(_bytes);
     var excelRows = excel.sheets[excel.getDefaultSheet()]!.rows;

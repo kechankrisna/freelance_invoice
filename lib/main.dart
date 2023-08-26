@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:freelance_invoice/router.dart';
 
 void main() {
-  
   runApp(const MyApp());
 }
 
