@@ -43,6 +43,10 @@ dependencies:
   file_picker: ^5.3.3
   logger: ^2.0.1
   intl: ^0.18.1
+  pos_printer_manager:
+    git:
+      url: https://github.com/kechankrisna/pos_printer_manager.git
+      ref: master
 
 dev_dependencies:
   flutter_test:
