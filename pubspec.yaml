@@ -47,6 +47,8 @@ dependencies:
     git:
       url: https://github.com/kechankrisna/pos_printer_manager.git
       ref: master
+  image: ^4.0.17
+  esc_pos_utils_plus: ^2.0.2
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:freelance_invoice/models/sale.dart';
 import 'package:freelance_invoice/models/sale_item.dart';
+import 'package:freelance_invoice/printer_service.dart';
 import 'package:freelance_invoice/services.dart';
 import 'package:freelance_invoice/template_service.dart';
 import 'dart:io' as io;
@@ -24,8 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
   String? _excelInfo;
   List<Sale> _sales = [];
   List<Sale> _previews = [];
+  List<Sale> _printed = [];
 
   late ScrollController previewScrollController = ScrollController();
+  late ScrollController printedScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -72,12 +75,39 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Flexible(
-              flex: 1,
-              child: ListView.builder(
-                  controller: previewScrollController,
-                  itemCount: _previews.length,
-                  itemBuilder: (_, i) =>
-                      Text("${i + 1} (${_previews[i].invoice})"))),
+            flex: 1,
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text("previews"),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      controller: previewScrollController,
+                      itemCount: _previews.length,
+                      itemBuilder: (_, i) =>
+                          Text("${i + 1} (${_previews[i].invoice})")),
+                )
+              ],
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text("printed receipts"),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      controller: printedScrollController,
+                      itemCount: _printed.length,
+                      itemBuilder: (_, i) =>
+                          Text("${i + 1} (${_printed[i].invoice})")),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -167,6 +197,31 @@ class _HomeScreenState extends State<HomeScreen> {
       previewScrollController
           .jumpTo(previewScrollController.position.maxScrollExtent);
       print(fileImg.path);
+    }
+    // print("content $content");
+  }
+
+  printESC() async {
+    setState(() {
+      printedScrollController
+          .jumpTo(printedScrollController.position.minScrollExtent);
+      _previews = [];
+    });
+    for (var sale in _sales) {
+      var content = await TemplateService.generateInvoiceHtml(sale);
+
+      // WebcontentConverter.printPreview(content: content);
+      var img = await WebcontentConverter.contentToImage(content: content);
+      PrinterService.printRawImages([img]);
+      // var fileImg = io.File(
+      //     p.join(io.Directory.current.path, "screenshots/${sale.invoice}.png"));
+      // await fileImg.writeAsBytes(img);
+      setState(() {
+        _printed.add(sale);
+      });
+      printedScrollController
+          .jumpTo(printedScrollController.position.maxScrollExtent);
+      // print(fileImg.path);
     }
     // print("content $content");
   }
