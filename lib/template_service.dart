@@ -60,6 +60,7 @@ class TemplateService {
     tr,
     td {
         break-inside: avoid;
+        padding: 5px;
     }
 
     body {
@@ -250,14 +251,14 @@ class TemplateService {
         color: black;
         font-size: 19px;
         line-height: 27px;
-        font-weight: 500;
+        font-weight: 600;
     }
 
     p {
         color: black;
         font-size: 23px;
         line-height: 35px;
-        font-weight: 500;
+        font-weight: 600;
     }
 
     .right {
@@ -319,6 +320,7 @@ class TemplateService {
     thead {
         background: black;
         color: white;
+        line-height: 35px;
     }
 </style>
 
@@ -344,9 +346,6 @@ class TemplateService {
                     <p>Customer: General</p>
                 </div>
             </div>
-
-
-            <p class="hr">
 
             <table align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                 <thead>
